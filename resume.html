@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ryan M. Hubbard - Resume</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&family=Lora:wght@400;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #0a0e27;
+            min-height: 100vh;
+            padding: 40px 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(0, 102, 204, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 46, 93, 0.2) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .shape {
+            position: absolute;
+            background: rgba(0, 102, 204, 0.03);
+            border-radius: 50%;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .shape:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            top: 60%;
+            right: 10%;
+            animation-delay: -5s;
+        }
+
+        .shape:nth-child(3) {
+            width: 150px;
+            height: 150px;
+            bottom: 10%;
+            left: 50%;
+            animation-delay: -10s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(180deg); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-section {
+            position: relative;
+            height: 500px;
+            border-radius: 30px 30px 0 0;
+            overflow: hidden;
+            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6);
+        }
+
+        .hero-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('/mnt/data/Tanner Building.png') center/cover;
+            filter: brightness(0.7) contrast(1.1);
+            animation: slowZoom 30s ease-in-out infinite alternate;
+        }
+
+        @keyframes slowZoom {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, 
+                rgba(0, 46, 93, 0.7) 0%, 
+                rgba(0, 102, 204, 0.6) 50%,
+                rgba(0, 20, 40, 0.8) 100%);
+            mix-blend-mode: multiply;
+        }
+
+        .hero-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(30deg, rgba(255, 255, 255, 0.05) 12%, transparent 12.5%, transparent 87%, rgba(255, 255, 255, 0.05) 87.5%, rgba(255, 255, 255, 0.05)),
+                linear-gradient(150deg, rgba(255, 255, 255, 0.05) 12%, transparent 12.5%, transparent 87%, rgba(255, 255, 255, 0.05) 87.5%, rgba(255, 255, 255, 0.05)),
+                linear-gradient(30deg, rgba(255, 255, 255, 0.05) 12%, transparent 12.5%, transparent 87%, rgba(255, 255, 255, 0.05) 87.5%, rgba(255, 255, 255, 0.05)),
+                linear-gradient(150deg, rgba(255, 255, 255, 0.05) 12%, transparent 12.5%, transparent 87%, rgba(255, 255, 255, 0.05) 87.5%, rgba(255, 255, 255, 0.05));
+            background-size: 80px 140px;
+            background-position: 0 0, 0 0, 40px 70px, 40px 70px;
+        }
+
+        .hero-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 60px 70px;
+            background: linear-gradient(to top, rgba(0, 20, 40, 0.95), transparent);
+            z-index: 2;
+        }
+
+        .name-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 8px 20px;
+            border-radius: 30px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .name-badge span {
+            color: #fff;
+            font-size: 0.9em;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            font-family: 'Lora', serif;
+            font-size: 4.5em;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 15px;
+            letter-spacing: -2px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            animation: fadeInUp 1s ease-out 0.2s backwards;
+            line-height: 1.1;
+        }
+
+        .contact-info {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            animation: fadeInUp 1.2s ease-out 0.4s backwards;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.95em;
+            font-weight: 400;
+        }
+
+        .contact-item::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: #0066cc;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(0, 102, 204, 0.8);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .content-card {
+            background: linear-gradient(to bottom, #ffffff, #f8f9ff);
+            border-radius: 0 0 30px 30px;
+            padding: 70px 70px 60px;
+            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.4);
+            position: relative;
+        }
+
+        .content-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #002e5d, #0066cc, #00a8ff, #0066cc, #002e5d);
+            background-size: 200% 100%;
+            animation: shimmer 3s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .section {
+            margin-bottom: 50px;
+            opacity: 0;
+            animation: fadeInSection 0.8s ease-out forwards;
+        }
+
+        .section:nth-child(1) { animation-delay: 0.1s; }
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.3s; }
+        .section:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes fadeInSection {
+            to {
+                opacity: 1;
+            }
+        }
+
+        h2 {
+            font-family: 'Lora', serif;
+            font-size: 2.2em;
+            font-weight: 700;
+            color: #002e5d;
+            margin-bottom: 35px;
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::before {
+            content: '';
+            position: absolute;
+            left: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 8px;
+            background: #0066cc;
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(0, 102, 204, 0.6);
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #002e5d 0%, #0066cc 50%, transparent 100%);
+            border-radius: 2px;
+        }
+
+        .experience-grid {
+            display: grid;
+            gap: 25px;
+        }
+
+        .experience-item, .education-item {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 30px rgba(0, 46, 93, 0.08);
+            border: 1px solid rgba(0, 102, 204, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .experience-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(180deg, #002e5d, #0066cc);
+            transform: scaleY(0);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: bottom;
+        }
+
+        .experience-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0, 46, 93, 0.15);
+            border-color: rgba(0, 102, 204, 0.3);
+        }
+
+        .experience-item:hover::before {
+            transform: scaleY(1);
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            gap: 20px;
+        }
+
+        .item-left {
+            flex: 1;
+        }
+
+        .company, .school {
+            font-weight: 700;
+            font-size: 1.3em;
+            color: #002e5d;
+            margin-bottom: 5px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .title {
+            font-style: italic;
+            color: #555;
+            font-weight: 500;
+            font-size: 1.05em;
+        }
+
+        .location {
+            display: inline-block;
+            margin-top: 5px;
+            color: #777;
+            font-size: 0.9em;
+        }
+
+        .location::before {
+            content: '📍 ';
+            opacity: 0.6;
+        }
+
+        .dates {
+            background: linear-gradient(135deg, #002e5d, #0066cc);
+            color: white;
+            padding: 8px 18px;
+            border-radius: 25px;
+            font-size: 0.85em;
+            font-weight: 600;
+            white-space: nowrap;
+            box-shadow: 0 4px 15px rgba(0, 46, 93, 0.2);
+            letter-spacing: 0.5px;
+        }
+
+        ul {
+            margin-left: 0;
+            margin-top: 18px;
+            list-style: none;
+        }
+
+        li {
+            margin-bottom: 12px;
+            line-height: 1.7;
+            color: #333;
+            font-weight: 400;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #0066cc;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .skills-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .skill-card {
+            background: linear-gradient(135deg, rgba(0, 46, 93, 0.05), rgba(0, 102, 204, 0.08));
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 4px solid #0066cc;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0, 102, 204, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .skill-card:hover {
+            transform: translateX(8px);
+            box-shadow: 0 8px 25px rgba(0, 46, 93, 0.12);
+            border-left-width: 6px;
+        }
+
+        .skill-card:hover::before {
+            opacity: 1;
+        }
+
+        .skill-icon {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, #0066cc, #00a8ff);
+            border-radius: 10px;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 15px rgba(0, 102, 204, 0.3);
+        }
+
+        .skill-text {
+            color: #333;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        @media (max-width: 1024px) {
+            .hero-section {
+                height: 400px;
+            }
+            
+            h1 {
+                font-size: 3.5em;
+            }
+            
+            .content-card {
+                padding: 50px 40px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 15px;
+            }
+
+            .hero-section {
+                height: 350px;
+                border-radius: 20px 20px 0 0;
+            }
+
+            .hero-content {
+                padding: 40px 30px;
+            }
+            
+            h1 {
+                font-size: 2.5em;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .content-card {
+                padding: 40px 30px;
+                border-radius: 0 0 20px 20px;
+            }
+            
+            h2 {
+                font-size: 1.8em;
+            }
+
+            h2::before {
+                left: -20px;
+            }
+            
+            .experience-item, .education-item {
+                padding: 25px;
+            }
+            
+            .item-header {
+                flex-direction: column;
+            }
+
+            .dates {
+                align-self: flex-start;
+            }
+
+            .skills-section {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+           
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <div class="container">
+        <div class="hero-section">
+            <div class="hero-image"></div>
+            <div class="hero-overlay"></div>
+            <div class="hero-pattern"></div>
+            <div class="hero-content">
+                <div class="name-badge">
+                    <span>Portfolio</span>
+                </div>
+                <h1>Ryan M. Hubbard</h1>
+                <div class="contact-info">
+                    <div class="contact-item">491 S 1950 E, Springville, UT 84663</div>
+                    <div class="contact-item">(801) 400-7310</div>
+                    <div class="contact-item">rmhubbard18@gmail.com</div>
+                    <nav>
+                        <a style="color: white;" href="home.html">Home</a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-card">
+            <div class="section">
+                <h2>Education</h2>
+                <div class="education-item">
+                    <div class="item-header">
+                        <div class="item-left">
+                            <div class="company">Brigham Young University</div>
+                            <div class="title">Pre-Business</div>
+                            <div class="location">Provo, UT</div>
+                        </div>
+                        <div class="dates">Dec 2028</div>
+                    </div>
+                    <ul>
+                        <li>GPA 3.70 / 4.00</li>
+                        <li>Marriott School of Business Dean's List (top 5% of students Fall 2024)</li>
+                        <li>Member of the BYU Finance Society, Private Equity/Venture Capital Club, and Investment Banking Association</li>
+                        <li>2025 Business Fundamentals Study Abroad in London, Paris, and Rome: Business visits to Citi, McKinsey, PwC</li>
+                        <li>Corporate Finance Shark Tank Case Competition</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Experience</h2>
+                <div class="experience-grid">
+                    <div class="experience-item">
+                        <div class="item-header">
+                            <div class="item-left">
+                                <div class="company">Zero Point Capital</div>
+                                <div class="title">Investment Banking Fall Analyst Intern</div>
+                                <div class="location">SLC, UT</div>
+                            </div>
+                            <div class="dates">Sep 2025 – Present</div>
+                        </div>
+                        <ul>
+                            <li>Sourced a list of 200 investors using PitchBook to identify and evaluate Private Equity investment opportunities</li>
+                        </ul>
+                    </div>
+
+                    <div class="experience-item">
+                        <div class="item-header">
+                            <div class="item-left">
+                                <div class="company">Glendora Capital</div>
+                                <div class="title">Private Equity Fall Analyst Intern</div>
+                                <div class="location">SLC, UT</div>
+                            </div>
+                            <div class="dates">Sep 2025 – Present</div>
+                        </div>
+                        <ul>
+                            <li>Revised the Industry Overview for Nutraceuticals CIM with industry CAGR forecast and market breakdown</li>
+                            <li>Updated Food Manufacturing Industry valuations such as EV/Revenue and EV/EBITDA on Industry CIM</li>
+                        </ul>
+                    </div>
+
+                    <div class="experience-item">
+                        <div class="item-header">
+                            <div class="item-left">
+                                <div class="company">LBO Case Competition</div>
+                                <div class="title">Participant</div>
+                                <div class="location">Provo, UT</div>
+                            </div>
+                            <div class="dates">Nov 2025</div>
+                        </div>
+                        <ul>
+                            <li>Built a paper LBO model for acquiring a company including the assumptions, projections, and returns (IRR/MoM)</li>
+                            <li>Created an investment pitch deck that including market and company overview, risks, and investment thesis</li>
+                        </ul>
+                    </div>
+
+                    <div class="experience-item">
+                        <div class="item-header">
+                            <div class="item-left">
+                                <div class="company">Verifai Health</div>
+                                <div class="title">On-Campus Internship Report Manager Intern</div>
+                                <div class="location">Provo, UT</div>
+                            </div>
+                            <div class="dates">Jan 2025 – Apr 2025</div>
+                        </div>
+                        <ul>
+                            <li>Developed five revenue forecasts at different price points to help determine the optimal service pricing</li>
+                            <li>Calculated a model of physicians' annual radiation exposure, quantifying the value of the company's product</li>
+                            <li>Conducted research and provided analysis to prepare the company to receive seed round funding from investors</li>
+                        </ul>
+                    </div>
+
+                    <div class="experience-item">
+                        <div class="item-header">
+                            <div class="item-left">
+                                <div class="company">Walmart Case Competition</div>
+                                <div class="title">Participant</div>
+                                <div class="location">Provo, UT</div>
+                            </div>
+                            <div class="dates">Mar 2025</div>
+                        </div>
+                        <ul>
+                            <li>Researched optimal market locations, ensuring tax break maximization and reducing project installation costs</li>
+                            <li>Performed capital budgeting to project NPV, ensuring highest risk-adjusted returns compared to alternative projects</li>
+                        </ul>
+                    </div>
+
+                    <div class="experience-item">
+                        <div class="item-header">
+                            <div class="item-left">
+                                <div class="company">BYU Broadcasting</div>
+                                <div class="title">Media Production Specialist</div>
+                                <div class="location">Provo, UT</div>
+                            </div>
+                            <div class="dates">Apr 2024 – Present</div>
+                        </div>
+                        <ul>
+                            <li>Solved various production problems quickly regarding cameras and cables which increased the quality of the show</li>
+                            <li>Executed the vision of 5 different directors by actively listening to instructions which led to smoother broadcasts</li>
+                            <li>Coordinated with a team in the setup and take down of equipment of events increasing efficiency of production</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Leadership & Service</h2>
+                <div class="experience-item">
+                    <div class="item-header">
+                        <div class="item-left">
+                            <div class="company">The Church of Jesus Christ of Latter-day Saints</div>
+                            <div class="title">Volunteer Representative</div>
+                            <div class="location">Cusco, Perú</div>
+                        </div>
+                        <div class="dates">Feb 2022 – Mar 2024</div>
+                    </div>
+                    <ul>
+                        <li>Trained and led missionaries in groups of 6 or more, as well as one on one improving productivity and performance</li>
+                        <li>Taught higher moral standards and good values to an average of 5 people per day increasing their happiness</li>
+                        <li>Participated in and led groups of other volunteer representatives in a minimum of 5 hours of service per week</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Awards, Skills & Interests</h2>
+                <div class="skills-section">
+                    <div class="skill-card">
+                        <div class="skill-icon"></div>
+                        <div class="skill-text">Fluent in Conversational Spanish (Limited Working Proficiency) -- reading, writing, and speaking</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon"></div>
+                        <div class="skill-text">Soccer Enthusiast: Attended the PSG v Arsenal Champions League Semi-Final in 2025 where PSG won 2-1</div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon"></div>
+                        <div class="skill-text">Passionate follower of Formula 1 racing, avid pickleball player, and enthusiastic golfer</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

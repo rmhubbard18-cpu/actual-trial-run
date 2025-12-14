@@ -1,0 +1,114 @@
+/* 1. PARENT CONTAINER (The Row) */
+.image-gallery {
+    display: flex;         /* Makes all children line up horizontally */
+    justify-content: space-around; /* Distributes space evenly between and around items */
+    width: 90%;            /* Sets a maximum width for the whole row */
+    margin: 0 auto;  
+    padding-top: 50px;      /* Centers the whole row on the page */
+}
+
+/* 2. CHILD CONTAINERS (The Boxes) */
+.image-box {
+    flex: 1;               /* Tells each box to take up an equal amount of available space */
+    border: 3px solid skyblue; /* The border creates the "box" around the image */
+    padding: 10px;         /* Creates space between the border and the image */
+    margin: 0 10px;        /* Adds space between the boxes */
+    max-width: 30%;        /* Ensures the boxes don't get too big */
+    box-sizing: border-box; /* Includes padding and border in the element's total width/height */
+}
+
+/* 3. IMAGES */
+.image-box img {
+    width: 100%;           /* Ensures the image fills its container box */
+    height: auto;          /* Maintains the image's original aspect ratio */
+    display: block;        /* Removes any extra space below the image */
+}
+
+.general{
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    background-color: black;
+}
+
+.link{
+    color:white;
+    text-decoration: underline;
+}
+
+.body {
+    background-color: black;
+}
+
+.header{
+    color: yellow;
+    text-align: center;
+    font-style: italic;
+    font-weight: bold;
+    border: 3px solid white;
+    top: 5px;
+    bottom: 570px;
+    left: 15px;
+    right: 15px;
+    font-size: 25px;
+    background-color: rgb(31, 30, 30);
+    position: fixed;
+    background-image: url(images/Starfield.webp);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 5;
+}
+
+.overview{
+    text-align: center;
+    padding-top: 150px;
+    color: skyblue;
+}
+
+.maincharacters{
+    color:yellow;
+    padding-top: 80px;
+}
+
+.seasons{
+    text-align: left;
+    margin-top: -290px;
+    margin-left: 600px;
+    color: yellow;
+}
+
+.beststoryarcs{
+    text-align: left;
+    margin-top: -190px;
+    margin-left: 1100px;
+}
+
+.iframe{
+    border: 2px skyblue solid;
+    margin-top: 50px;
+    margin-left: 400px;
+}
+
+.tab{
+    padding-top: 50px;
+    padding-left: 175px;
+}
+
+.watch{
+    padding-top: 100px;
+    padding-bottom: 80px;
+    color: yellow;
+}
+
+.footer{
+    bottom: 10px;
+    top: auto;
+    left: 15px;
+    right: 15px;
+    font-size: 10px;
+    background-color: rgb(31, 30, 30);
+    position: relative;
+    border: 3px solid white ;
+    text-align: center;
+    background-color: black;
+}

@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F1 Snake Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial Black', sans-serif;
+            background: linear-gradient(135deg, #001f3f 0%, #0a1929 50%, #000814 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 4em;
+            margin-bottom: 10px;
+            color: #4A90E2;
+            text-shadow: 0 0 20px rgba(74, 144, 226, 0.8),
+                         0 0 10px #fff;
+            letter-spacing: 8px;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: #fff;
+            margin-bottom: 20px;
+            letter-spacing: 3px;
+        }
+
+        .score-container {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .score-box {
+            background: rgba(0, 31, 63, 0.7);
+            padding: 15px 30px;
+            border-radius: 10px;
+            border: 3px solid #4A90E2;
+            box-shadow: 0 0 20px rgba(74, 144, 226, 0.5);
+        }
+
+        .score-label {
+            font-size: 0.9em;
+            color: #4A90E2;
+            margin-bottom: 5px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .score-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .game-board {
+            background: #0a1929;
+            padding: 20px;
+            border-radius: 15px;
+            display: inline-block;
+            box-shadow: 0 0 40px rgba(74, 144, 226, 0.6),
+                        inset 0 0 20px rgba(0, 0, 0, 0.5);
+            border: 4px solid #4A90E2;
+            position: relative;
+        }
+
+        canvas {
+            border-radius: 8px;
+            background: #000;
+            display: block;
+        }
+
+        .controls {
+            margin-top: 30px;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background: linear-gradient(135deg, #4A90E2, #2563EB);
+            color: #fff;
+            border: 3px solid #fff;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.5);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(74, 144, 226, 0.8);
+            background: linear-gradient(135deg, #5AA3F5, #4A90E2);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .instructions {
+            margin-top: 25px;
+            font-size: 1.1em;
+            color: #fff;
+            max-width: 600px;
+        }
+
+        .instructions-title {
+            color: #4A90E2;
+            font-weight: bold;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .game-over {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .game-over-content {
+            background: linear-gradient(135deg, #0a1929, #000814);
+            padding: 50px;
+            border-radius: 20px;
+            text-align: center;
+            border: 5px solid #4A90E2;
+            box-shadow: 0 0 50px rgba(74, 144, 226, 0.8);
+        }
+
+        .game-over-content h2 {
+            font-size: 4em;
+            color: #4A90E2;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(74, 144, 226, 0.8);
+            letter-spacing: 5px;
+        }
+
+        .speed-display {
+            font-size: 0.9em;
+            color: #4A90E2;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .fastest-lap {
+            animation: pulse 1s infinite;
+        }
+    </style>
+</head>
+<body>
+              <nav>
+                <a style="color: white;" href="home.html">Home</a>
+              </nav>
+    <div class="container">
+        <h1>F1 SNAKE</h1>
+        <div class="subtitle">FORMULA ONE RACING</div>
+        
+        <div class="score-container">
+            <div class="score-box">
+                <div class="score-label">POSITION</div>
+                <div class="score-value" id="score">0</div>
+            </div>
+            <div class="score-box">
+                <div class="score-label">BEST LAP</div>
+                <div class="score-value" id="best">0</div>
+            </div>
+            <div class="score-box">
+                <div class="score-label">SPEED</div>
+                <div class="score-value" id="speed">150</div>
+                <div class="speed-display">km/h</div>
+            </div>
+        </div>
+
+        <div class="game-board">
+            <canvas id="gameCanvas" width="600" height="600"></canvas>
+        </div>
+
+        <div class="controls">
+            <button onclick="startGame()">START RACE</button>
+            <button onclick="togglePause()">PAUSE</button>
+        </div>
+
+        <div class="instructions">
+            <div class="instructions-title">RACE CONTROLS</div>
+            Use Arrow Keys or WASD to steer your F1 car. Collect checkpoints to extend your racing line and increase speed. Avoid crashing into yourself or the barriers!
+        </div>
+    </div>
+
+    <div class="game-over" id="gameOver">
+        <div class="game-over-content">
+            <h2>DNF!</h2>
+            <p style="font-size: 1.8em; margin: 20px 0; color: #fff;">Did Not Finish</p>
+            <p style="font-size: 1.5em; margin: 20px 0; color: #4A90E2;">Final Position: <span id="finalScore">0</span></p>
+            <button onclick="startGame()">RESTART RACE</button>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        const gridSize = 20;
+        const tileCount = canvas.width / gridSize;
+        
+        let snake = [{x: 10, y: 10}];
+        let velocityX = 1;
+        let velocityY = 0;
+        let checkpointX = 15;
+        let checkpointY = 15;
+        let score = 0;
+        let best = localStorage.getItem('f1-snake-best') || 0;
+        let gameLoop;
+        let isPaused = false;
+        let gameSpeed = 100;
+        let baseSpeed = 150;
+
+        document.getElementById('best').textContent = best;
+
+        function startGame() {
+            document.getElementById('gameOver').style.display = 'none';
+            snake = [{x: 10, y: 10}];
+            velocityX = 1;
+            velocityY = 0;
+            score = 0;
+            isPaused = false;
+            gameSpeed = 100;
+            baseSpeed = 150;
+            updateScore();
+            placeCheckpoint();
+            
+            if (gameLoop) clearInterval(gameLoop);
+            gameLoop = setInterval(update, gameSpeed);
+        }
+
+        function togglePause() {
+            isPaused = !isPaused;
+            if (!isPaused && !gameLoop) {
+                gameLoop = setInterval(update, gameSpeed);
+            }
+        }
+
+        function update() {
+            if (isPaused) return;
+
+            const head = {x: snake[0].x + velocityX, y: snake[0].y + velocityY};
+
+            // Check wall collision
+            if (head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount) {
+                endGame();
+                return;
+            }
+
+            // Check self collision
+            for (let segment of snake) {
+                if (head.x === segment.x && head.y === segment.y) {
+                    endGame();
+                    return;
+                }
+            }
+
+            snake.unshift(head);
+
+            // Check checkpoint collection
+            if (head.x === checkpointX && head.y === checkpointY) {
+                score++;
+                updateScore();
+                placeCheckpoint();
+                
+                // Increase speed every 5 checkpoints
+                if (score % 5 === 0 && gameSpeed > 40) {
+                    gameSpeed -= 5;
+                    baseSpeed += 20;
+                    clearInterval(gameLoop);
+                    gameLoop = setInterval(update, gameSpeed);
+                    document.getElementById('speed').classList.add('fastest-lap');
+                    setTimeout(() => {
+                        document.getElementById('speed').classList.remove('fastest-lap');
+                    }, 1000);
+                }
+            } else {
+                snake.pop();
+            }
+
+            draw();
+        }
+
+        function draw() {
+            // Track background with grid
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Draw track lines
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.lineWidth = 1;
+            for (let i = 0; i < tileCount; i++) {
+                ctx.beginPath();
+                ctx.moveTo(i * gridSize, 0);
+                ctx.lineTo(i * gridSize, canvas.height);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(0, i * gridSize);
+                ctx.lineTo(canvas.width, i * gridSize);
+                ctx.stroke();
+            }
+
+            // Draw checkpoint (finish line flag pattern)
+            ctx.fillStyle = '#fff';
+            ctx.fillRect(checkpointX * gridSize, checkpointY * gridSize, gridSize, gridSize);
+            ctx.fillStyle = '#000';
+            ctx.fillRect(checkpointX * gridSize, checkpointY * gridSize, gridSize / 2, gridSize / 2);
+            ctx.fillRect(checkpointX * gridSize + gridSize / 2, checkpointY * gridSize + gridSize / 2, gridSize / 2, gridSize / 2);
+            
+            // Draw glow around checkpoint
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = '#4A90E2';
+            ctx.strokeStyle = '#4A90E2';
+            ctx.lineWidth = 3;
+            ctx.strokeRect(checkpointX * gridSize - 2, checkpointY * gridSize - 2, gridSize + 4, gridSize + 4);
+            ctx.shadowBlur = 0;
+
+            // Draw snake (pixel art F1 cars)
+            snake.forEach((segment, index) => {
+                const x = segment.x * gridSize;
+                const y = segment.y * gridSize;
+                const scale = gridSize / 20; // Scale the car to fit in grid
+                
+                ctx.save();
+                ctx.translate(x + gridSize / 2, y + gridSize / 2);
+                
+                // Rotate based on direction
+                if (velocityX === 1) ctx.rotate(Math.PI / 2);
+                else if (velocityX === -1) ctx.rotate(-Math.PI / 2);
+                else if (velocityY === 1) ctx.rotate(Math.PI);
+                
+                ctx.translate(-10 * scale, -10 * scale);
+                
+                // Draw pixel art F1 car
+                const pixels = [
+                    // Front wing
+                    {x:4,y:0,c:'#e10600'},{x:5,y:0,c:'#000'},{x:6,y:0,c:'#000'},{x:7,y:0,c:'#000'},{x:8,y:0,c:'#000'},{x:9,y:0,c:'#000'},{x:10,y:0,c:'#000'},{x:11,y:0,c:'#000'},{x:12,y:0,c:'#000'},{x:13,y:0,c:'#000'},{x:14,y:0,c:'#000'},{x:15,y:0,c:'#e10600'},
+                    {x:3,y:1,c:'#e10600'},{x:4,y:1,c:'#ccc'},{x:5,y:1,c:'#ccc'},{x:6,y:1,c:'#fff'},{x:7,y:1,c:'#fff'},{x:8,y:1,c:'#000'},{x:9,y:1,c:'#000'},{x:10,y:1,c:'#000'},{x:11,y:1,c:'#fff'},{x:12,y:1,c:'#fff'},{x:13,y:1,c:'#ccc'},{x:14,y:1,c:'#ccc'},{x:15,y:1,c:'#e10600'},{x:16,y:1,c:'#e10600'},
+                    {x:3,y:2,c:'#000'},{x:4,y:2,c:'#ccc'},{x:5,y:2,c:'#fff'},{x:6,y:2,c:'#000'},{x:7,y:2,c:'#000'},{x:8,y:2,c:'#444'},{x:9,y:2,c:'#444'},{x:10,y:2,c:'#444'},{x:11,y:2,c:'#000'},{x:12,y:2,c:'#000'},{x:13,y:2,c:'#fff'},{x:14,y:2,c:'#ccc'},{x:15,y:2,c:'#000'},{x:16,y:2,c:'#000'},
+                    // Nose
+                    {x:5,y:3,c:'#000'},{x:6,y:3,c:'#e10600'},{x:7,y:3,c:'#e10600'},{x:8,y:3,c:'#e10600'},{x:9,y:3,c:'#e10600'},{x:10,y:3,c:'#e10600'},{x:11,y:3,c:'#e10600'},{x:12,y:3,c:'#e10600'},{x:13,y:3,c:'#000'},
+                    {x:6,y:4,c:'#000'},{x:7,y:4,c:'#ff4444'},{x:8,y:4,c:'#e10600'},{x:9,y:4,c:'#e10600'},{x:10,y:4,c:'#e10600'},{x:11,y:4,c:'#e10600'},{x:12,y:4,c:'#ff4444'},{x:13,y:4,c:'#000'},
+                    // Main body
+                    {x:5,y:5,c:'#000'},{x:6,y:5,c:'#e10600'},{x:7,y:5,c:'#e10600'},{x:8,y:5,c:'#e10600'},{x:9,y:5,c:'#e10600'},{x:10,y:5,c:'#e10600'},{x:11,y:5,c:'#e10600'},{x:12,y:5,c:'#e10600'},{x:13,y:5,c:'#e10600'},{x:14,y:5,c:'#000'},
+                    {x:4,y:6,c:'#000'},{x:5,y:6,c:'#e10600'},{x:6,y:6,c:'#ff4444'},{x:7,y:6,c:'#e10600'},{x:8,y:6,c:'#fff'},{x:9,y:6,c:'#fff'},{x:10,y:6,c:'#fff'},{x:11,y:6,c:'#e10600'},{x:12,y:6,c:'#ff4444'},{x:13,y:6,c:'#e10600'},{x:14,y:6,c:'#000'},{x:15,y:6,c:'#000'},
+                    {x:3,y:7,c:'#000'},{x:4,y:7,c:'#e10600'},{x:5,y:7,c:'#e10600'},{x:6,y:7,c:'#e10600'},{x:7,y:7,c:'#000'},{x:8,y:7,c:'#fff'},{x:9,y:7,c:'#fff'},{x:10,y:7,c:'#fff'},{x:11,y:7,c:'#000'},{x:12,y:7,c:'#e10600'},{x:13,y:7,c:'#e10600'},{x:14,y:7,c:'#e10600'},{x:15,y:7,c:'#000'},{x:16,y:7,c:'#000'},
+                    // Cockpit
+                    {x:2,y:8,c:'#000'},{x:3,y:8,c:'#e10600'},{x:4,y:8,c:'#e10600'},{x:5,y:8,c:'#e10600'},{x:6,y:8,c:'#e10600'},{x:7,y:8,c:'#000'},{x:8,y:8,c:'#fff'},{x:9,y:8,c:'#ddd'},{x:10,y:8,c:'#fff'},{x:11,y:8,c:'#000'},{x:12,y:8,c:'#e10600'},{x:13,y:8,c:'#e10600'},{x:14,y:8,c:'#e10600'},{x:15,y:8,c:'#e10600'},{x:16,y:8,c:'#000'},{x:17,y:8,c:'#000'},
+                    {x:2,y:9,c:'#000'},{x:3,y:9,c:'#444'},{x:4,y:9,c:'#e10600'},{x:5,y:9,c:'#e10600'},{x:6,y:9,c:'#000'},{x:7,y:9,c:'#000'},{x:8,y:9,c:'#000'},{x:9,y:9,c:'#fff'},{x:10,y:9,c:'#000'},{x:11,y:9,c:'#000'},{x:12,y:9,c:'#000'},{x:13,y:9,c:'#e10600'},{x:14,y:9,c:'#e10600'},{x:15,y:9,c:'#444'},{x:16,y:9,c:'#000'},{x:17,y:9,c:'#000'},
+                    {x:2,y:10,c:'#000'},{x:3,y:10,c:'#444'},{x:4,y:10,c:'#e10600'},{x:5,y:10,c:'#e10600'},{x:6,y:10,c:'#000'},{x:7,y:10,c:'#ff4444'},{x:8,y:10,c:'#000'},{x:9,y:10,c:'#000'},{x:10,y:10,c:'#000'},{x:11,y:10,c:'#ff4444'},{x:12,y:10,c:'#000'},{x:13,y:10,c:'#e10600'},{x:14,y:10,c:'#e10600'},{x:15,y:10,c:'#444'},{x:16,y:10,c:'#000'},{x:17,y:10,c:'#000'},
+                    {x:2,y:11,c:'#000'},{x:3,y:11,c:'#e10600'},{x:4,y:11,c:'#e10600'},{x:5,y:11,c:'#e10600'},{x:6,y:11,c:'#e10600'},{x:7,y:11,c:'#e10600'},{x:8,y:11,c:'#000'},{x:9,y:11,c:'#000'},{x:10,y:11,c:'#000'},{x:11,y:11,c:'#e10600'},{x:12,y:11,c:'#e10600'},{x:13,y:11,c:'#e10600'},{x:14,y:11,c:'#e10600'},{x:15,y:11,c:'#e10600'},{x:16,y:11,c:'#000'},{x:17,y:11,c:'#000'},
+                    // Engine area
+                    {x:3,y:12,c:'#000'},{x:4,y:12,c:'#e10600'},{x:5,y:12,c:'#e10600'},{x:6,y:12,c:'#e10600'},{x:7,y:12,c:'#e10600'},{x:8,y:12,c:'#e10600'},{x:9,y:12,c:'#e10600'},{x:10,y:12,c:'#e10600'},{x:11,y:12,c:'#e10600'},{x:12,y:12,c:'#e10600'},{x:13,y:12,c:'#e10600'},{x:14,y:12,c:'#e10600'},{x:15,y:12,c:'#000'},{x:16,y:12,c:'#000'},
+                    {x:4,y:13,c:'#000'},{x:5,y:13,c:'#e10600'},{x:6,y:13,c:'#e10600'},{x:7,y:13,c:'#e10600'},{x:8,y:13,c:'#fff'},{x:9,y:13,c:'#fff'},{x:10,y:13,c:'#fff'},{x:11,y:13,c:'#e10600'},{x:12,y:13,c:'#e10600'},{x:13,y:13,c:'#e10600'},{x:14,y:13,c:'#000'},{x:15,y:13,c:'#000'},
+                    // Rear tires
+                    {x:2,y:14,c:'#000'},{x:3,y:14,c:'#000'},{x:4,y:14,c:'#444'},{x:5,y:14,c:'#444'},{x:6,y:14,c:'#000'},{x:7,y:14,c:'#e10600'},{x:8,y:14,c:'#e10600'},{x:9,y:14,c:'#e10600'},{x:10,y:14,c:'#e10600'},{x:11,y:14,c:'#e10600'},{x:12,y:14,c:'#000'},{x:13,y:14,c:'#444'},{x:14,y:14,c:'#444'},{x:15,y:14,c:'#000'},{x:16,y:14,c:'#000'},
+                    {x:1,y:15,c:'#000'},{x:2,y:15,c:'#444'},{x:3,y:15,c:'#444'},{x:4,y:15,c:'#000'},{x:5,y:15,c:'#000'},{x:6,y:15,c:'#e10600'},{x:7,y:15,c:'#e10600'},{x:8,y:15,c:'#e10600'},{x:9,y:15,c:'#e10600'},{x:10,y:15,c:'#e10600'},{x:11,y:15,c:'#e10600'},{x:12,y:15,c:'#e10600'},{x:13,y:15,c:'#000'},{x:14,y:15,c:'#000'},{x:15,y:15,c:'#444'},{x:16,y:15,c:'#444'},{x:17,y:15,c:'#000'},{x:18,y:15,c:'#000'},
+                    {x:1,y:16,c:'#000'},{x:2,y:16,c:'#444'},{x:3,y:16,c:'#000'},{x:4,y:16,c:'#777'},{x:5,y:16,c:'#777'},{x:6,y:16,c:'#000'},{x:7,y:16,c:'#e10600'},{x:8,y:16,c:'#e10600'},{x:9,y:16,c:'#e10600'},{x:10,y:16,c:'#e10600'},{x:11,y:16,c:'#e10600'},{x:12,y:16,c:'#000'},{x:13,y:16,c:'#777'},{x:14,y:16,c:'#777'},{x:15,y:16,c:'#000'},{x:16,y:16,c:'#444'},{x:17,y:16,c:'#000'},{x:18,y:16,c:'#000'},
+                    // Rear wing
+                    {x:2,y:17,c:'#000'},{x:3,y:17,c:'#000'},{x:4,y:17,c:'#000'},{x:5,y:17,c:'#000'},{x:6,y:17,c:'#e10600'},{x:7,y:17,c:'#e10600'},{x:8,y:17,c:'#e10600'},{x:9,y:17,c:'#e10600'},{x:10,y:17,c:'#e10600'},{x:11,y:17,c:'#e10600'},{x:12,y:17,c:'#e10600'},{x:13,y:17,c:'#000'},{x:14,y:17,c:'#000'},{x:15,y:17,c:'#000'},{x:16,y:17,c:'#000'},
+                    {x:4,y:18,c:'#e10600'},{x:5,y:18,c:'#000'},{x:6,y:18,c:'#000'},{x:7,y:18,c:'#fff'},{x:8,y:18,c:'#fff'},{x:9,y:18,c:'#000'},{x:10,y:18,c:'#000'},{x:11,y:18,c:'#fff'},{x:12,y:18,c:'#fff'},{x:13,y:18,c:'#000'},{x:14,y:18,c:'#000'},{x:15,y:18,c:'#e10600'},
+                    {x:5,y:19,c:'#e10600'},{x:6,y:19,c:'#000'},{x:7,y:19,c:'#000'},{x:8,y:19,c:'#000'},{x:9,y:19,c:'#ccc'},{x:10,y:19,c:'#ccc'},{x:11,y:19,c:'#000'},{x:12,y:19,c:'#000'},{x:13,y:19,c:'#000'},{x:14,y:19,c:'#e10600'}
+                ];
+                
+                pixels.forEach(p => {
+                    ctx.fillStyle = p.c;
+                    ctx.fillRect(p.x * scale, p.y * scale, scale, scale);
+                });
+                
+                ctx.restore();
+                
+                // Add car number/position
+                if (index === 0) {
+                    ctx.font = 'bold 8px Arial';
+                    ctx.fillStyle = '#4A90E2';
+                    ctx.strokeStyle = '#000';
+                    ctx.lineWidth = 2;
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.strokeText('P1', x + gridSize / 2, y + gridSize + 8);
+                    ctx.fillText('P1', x + gridSize / 2, y + gridSize + 8);
+                }
+            });
+        }
+
+        function placeCheckpoint() {
+            do {
+                checkpointX = Math.floor(Math.random() * tileCount);
+                checkpointY = Math.floor(Math.random() * tileCount);
+            } while (snake.some(segment => segment.x === checkpointX && segment.y === checkpointY));
+        }
+
+        function updateScore() {
+            document.getElementById('score').textContent = score;
+            document.getElementById('speed').textContent = baseSpeed;
+            if (score > best) {
+                best = score;
+                localStorage.setItem('f1-snake-best', best);
+                document.getElementById('best').textContent = best;
+            }
+        }
+
+        function endGame() {
+            clearInterval(gameLoop);
+            gameLoop = null;
+            document.getElementById('finalScore').textContent = score;
+            document.getElementById('gameOver').style.display = 'flex';
+        }
+
+        document.addEventListener('keydown', (e) => {
+            // Arrow keys
+            if (e.key === 'ArrowUp' && velocityY === 0) {
+                velocityX = 0;
+                velocityY = -1;
+                e.preventDefault();
+            } else if (e.key === 'ArrowDown' && velocityY === 0) {
+                velocityX = 0;
+                velocityY = 1;
+                e.preventDefault();
+            } else if (e.key === 'ArrowLeft' && velocityX === 0) {
+                velocityX = -1;
+                velocityY = 0;
+                e.preventDefault();
+            } else if (e.key === 'ArrowRight' && velocityX === 0) {
+                velocityX = 1;
+                velocityY = 0;
+                e.preventDefault();
+            }
+            
+            // WASD keys
+            if (e.key === 'w' && velocityY === 0) {
+                velocityX = 0;
+                velocityY = -1;
+            } else if (e.key === 's' && velocityY === 0) {
+                velocityX = 0;
+                velocityY = 1;
+            } else if (e.key === 'a' && velocityX === 0) {
+                velocityX = -1;
+                velocityY = 0;
+            } else if (e.key === 'd' && velocityX === 0) {
+                velocityX = 1;
+                velocityY = 0;
+            }
+        });
+
+        // Touch controls for mobile
+        let touchStartX = 0;
+        let touchStartY = 0;
+
+        canvas.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+        });
+
+        canvas.addEventListener('touchend', (e) => {
+            const touchEndX = e.changedTouches[0].clientX;
+            const touchEndY = e.changedTouches[0].clientY;
+            const dx = touchEndX - touchStartX;
+            const dy = touchEndY - touchStartY;
+            
+            if (Math.abs(dx) > Math.abs(dy)) {
+                if (dx > 30 && velocityX === 0) {
+                    velocityX = 1;
+                    velocityY = 0;
+                } else if (dx < -30 && velocityX === 0) {
+                    velocityX = -1;
+                    velocityY = 0;
+                }
+            } else {
+                if (dy > 30 && velocityY === 0) {
+                    velocityX = 0;
+                    velocityY = 1;
+                } else if (dy < -30 && velocityY === 0) {
+                    velocityX = 0;
+                    velocityY = -1;
+                }
+            }
+        });
+
+        // Draw initial state
+        draw();
+    </script>
+</body>
+</html>
